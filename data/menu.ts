@@ -2,7 +2,7 @@ export const MENU_DATA = [
   {
     title: "대시보드",
     subMenu: [
-      { title: "전체 플랫폼 통계 요약", path: "/dashboard/summary" },
+      { title: "전체 통계 요약", path: "/dashboard/summary" },
       { title: "최근 활동 로그", path: "/dashboard/recent" },
     ],
   },
