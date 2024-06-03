@@ -31,7 +31,7 @@ const Summary = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="text-2xl font-bold p-2 bg-gray-200">Summary</div>
+      <div className="text-2xl font-bold p-2 text-black">Summary</div>
       <div className="flex-1 p-4 grid grid-cols-2 gap-4">
         {charts.map((chartData, index) => (
           <LineChartCom key={index} data={chartData} options={options} />
