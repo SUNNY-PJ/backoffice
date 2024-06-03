@@ -38,7 +38,7 @@ const LeftMenu = ({ isSidebarOpen }: LeftMenuProps) => {
 
   return (
     <nav
-      className={`w-64 bg-basic_4 text-gray_4 font-medium h-full p-4 transition-transform duration-300 ease-in-out transform ${
+      className={`pt-16 w-64 bg-basic_4 text-gray_4 font-medium h-full p-4 transition-transform duration-300 ease-in-out transform ${
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       } fixed z-10`}
     >

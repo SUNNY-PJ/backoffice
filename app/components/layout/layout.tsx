@@ -20,7 +20,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <div className="flex h-screen">
       <LeftMenu isSidebarOpen={isSidebarOpen} />
       <div
-        className={`flex-1 transition-all duration-300 ease-in-out ${
+        className={`flex-1 transition-all duration-300 ease-in-out pt-14 ${
           isSidebarOpen ? "ml-64" : "ml-0"
         }`}
       >

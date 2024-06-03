@@ -19,7 +19,7 @@ const Header = ({ username, onLogout, onToggle }: HeaderProps) => {
   };
 
   return (
-    <header className="bg-orange_3 text-black p-2 flex justify-between items-center">
+    <header className="bg-orange_3 text-black p-2 flex justify-between items-center fixed top-0 left-0 right-0 z-10">
       <div className="flex items-center space-x-4">
         <button
           onClick={() => {
