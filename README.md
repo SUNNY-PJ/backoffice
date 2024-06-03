@@ -1,7 +1,8 @@
 # backoffice
-<div>
-SUNNY 앱을 관리하기 위한 페이지
-<img src="https://github.com/SUNNY-PJ/.github/assets/100350818/fc755de8-3cb6-46a4-b70a-d769cebbebb1" width="200" title="앱아이콘">
+<div align="center">
+    SUNNY 앱을 관리하기 위한 페이지
+    <br>
+    <img src="https://github.com/SUNNY-PJ/.github/assets/100350818/fc755de8-3cb6-46a4-b70a-d769cebbebb1" width="200" title="앱아이콘">
 </div>
 <br/>
 <br/>
