@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "GmarketSansTTFMedium";
+  src: url("/fonts/GmarketSansTTFMedium.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SUITE";
+  src: url("/fonts/SUITE-Light.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -16,6 +30,11 @@
   }
 }
 
+html,
+body {
+  font-family: "SUITE", sans-serif;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -27,7 +46,19 @@ body {
 }
 
 @layer utilities {
+  .rotate-animation {
+    animation: rotate 1s linear;
+  }
   .text-balance {
     text-wrap: balance;
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 }
