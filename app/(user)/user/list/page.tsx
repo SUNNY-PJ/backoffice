@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { faker } from "@faker-js/faker";
 import "tabulator-tables/dist/css/tabulator_simple.min.css";
 import { TabulatorFull as Tabulator } from "tabulator-tables";
+import ProfileModal from "@/app/components/modal/profileModal";
 
 interface User {
   id: string;
@@ -26,8 +27,10 @@ const generateUsers = (count: number): User[] => {
   return users;
 };
 
-const List = () => {
+const UserList = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const tableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -50,6 +53,22 @@ const List = () => {
           { title: "Name", field: "name" },
           { title: "Email", field: "email" },
           { title: "Phone", field: "phone" },
+          {
+            title: "Actions",
+            formatter: (cell, formatterParams, onRendered) => {
+              const button = document.createElement("button");
+              button.className =
+                "px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600";
+              button.textContent = "View Profile";
+              button.addEventListener("click", () => {
+                const userData = cell.getRow().getData() as User;
+                setSelectedUser(userData);
+                setIsModalOpen(true);
+              });
+              return button;
+            },
+            hozAlign: "center",
+          },
         ],
       });
     }
@@ -59,8 +78,15 @@ const List = () => {
     <div className="p-4">
       <h1 className="mb-4 text-2xl font-bold">User List</h1>
       <div ref={tableRef}></div>
+      {selectedUser && (
+        <ProfileModal
+          show={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          user={selectedUser}
+        />
+      )}
     </div>
   );
 };
 
-export default List;
+export default UserList;
