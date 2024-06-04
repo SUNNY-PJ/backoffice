@@ -75,8 +75,8 @@ const UserList = () => {
   }, [users]);
 
   return (
-    <div className="p-4">
-      <h1 className="mb-4 text-2xl font-bold">User List</h1>
+    <div className="flex flex-col h-screen">
+      <div className="p-2 text-2xl font-bold">User List</div>
       <div ref={tableRef}></div>
       {selectedUser && (
         <ProfileModal
