@@ -4,7 +4,7 @@ import { MENU_DATA } from "@/data/menu";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import Sunny from "../../../public/assets/Icon/yellow_sunny.svg";
+import Sunny from "../../public/assets/Icon/sunny.svg";
 
 type LeftMenuProps = {
   isSidebarOpen: boolean;
