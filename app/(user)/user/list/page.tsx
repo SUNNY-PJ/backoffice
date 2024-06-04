@@ -58,7 +58,7 @@ const UserList = () => {
             formatter: (cell, formatterParams, onRendered) => {
               const button = document.createElement("button");
               button.className =
-                "px-2 py-1 text-black rounded bg-orange_1 hover:bg-orange_0 hover:text-gray_6";
+                "px-2 py-1 text-black border rounded border-orange_4 bg-orange_0 hover:border-orange_5 hover:bg-orange_1 hover:text-gray_6";
               button.textContent = "profile";
               button.addEventListener("click", () => {
                 const userData = cell.getRow().getData() as User;
