@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import Sunny from "../../public/assets/Icon/sunny.svg";
+import Sunny from "../../../public/assets/Icon/sunny.svg";
 
 interface ProfileModalProps {
   show: boolean;
