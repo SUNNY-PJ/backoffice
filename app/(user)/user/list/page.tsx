@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { faker } from "@faker-js/faker";
-import "tabulator-tables/dist/css/tabulator.min.css";
+import "tabulator-tables/dist/css/tabulator_simple.min.css";
 import { Tabulator } from "tabulator-tables";
 
 interface User {
