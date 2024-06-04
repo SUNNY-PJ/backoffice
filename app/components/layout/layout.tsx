@@ -35,7 +35,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           onLogout={handleLogout}
           onToggleSidebar={toggleSidebar}
         />
-        <main className="flex-1 p-4 mt-14 bg-basic_1">{children}</main>
+        <main className="flex-1 p-4 pb-4 mt-14 bg-basic_1">{children}</main>
       </div>
     </div>
   );
