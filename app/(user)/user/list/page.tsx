@@ -1,7 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { faker } from "@faker-js/faker";
+import "tabulator-tables/dist/css/tabulator_simple.min.css";
+import { TabulatorFull as Tabulator } from "tabulator-tables";
+import ProfileModal from "@/app/components/modal/profileModal";
 
 interface User {
   id: string;
@@ -24,40 +27,66 @@ const generateUsers = (count: number): User[] => {
   return users;
 };
 
-const List = () => {
+const UserList = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const tableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // 임시 사용자 10명 생성
-    const generatedUsers = generateUsers(10);
+    // 임시 사용자 20명 생성
+    const generatedUsers = generateUsers(20);
     setUsers(generatedUsers);
   }, []);
 
+  useEffect(() => {
+    if (tableRef.current) {
+      new Tabulator(tableRef.current, {
+        data: users,
+        layout: "fitColumns",
+        pagination: true, // 페이징 활성화
+        paginationMode: "local", // 로컬 페이징
+        paginationSize: 10, // 페이지당 항목 수
+        paginationInitialPage: 1, // 초기 페이지 번호
+        columns: [
+          { title: "ID", field: "id" },
+          { title: "Name", field: "name" },
+          { title: "Email", field: "email" },
+          { title: "Phone", field: "phone" },
+          {
+            title: "Actions",
+            formatter: (cell, formatterParams, onRendered) => {
+              const button = document.createElement("button");
+              button.className =
+                "px-2 py-1 text-black border rounded border-orange_4 bg-orange_0 hover:border-orange_5 hover:bg-orange_1 hover:text-gray_6";
+              button.textContent = "profile";
+              button.addEventListener("click", () => {
+                const userData = cell.getRow().getData() as User;
+                setSelectedUser(userData);
+                setIsModalOpen(true);
+              });
+              return button;
+            },
+            hozAlign: "center",
+          },
+        ],
+      });
+    }
+  }, [users]);
+
   return (
-    <div className="p-4">
-      <h1 className="mb-4 text-2xl font-bold">User List</h1>
-      <table className="min-w-full bg-white border border-gray-200">
-        <thead>
-          <tr>
-            <th className="px-4 py-2 border-b">ID</th>
-            <th className="px-4 py-2 border-b">Name</th>
-            <th className="px-4 py-2 border-b">Email</th>
-            <th className="px-4 py-2 border-b">Phone</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td className="px-4 py-2 border-b">{user.id}</td>
-              <td className="px-4 py-2 border-b">{user.name}</td>
-              <td className="px-4 py-2 border-b">{user.email}</td>
-              <td className="px-4 py-2 border-b">{user.phone}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="flex flex-col h-screen">
+      <div className="p-2 text-2xl font-bold">User List</div>
+      <div ref={tableRef}></div>
+      {selectedUser && (
+        <ProfileModal
+          show={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          user={selectedUser}
+        />
+      )}
     </div>
   );
 };
 
-export default List;
+export default UserList;

@@ -8,10 +8,9 @@ import Sunny from "../../../public/assets/Icon/yellow_sunny.svg";
 
 type LeftMenuProps = {
   isSidebarOpen: boolean;
-  onClose: () => void;
 };
 
-const LeftMenu = ({ isSidebarOpen, onClose }: LeftMenuProps) => {
+const LeftMenu = ({ isSidebarOpen }: LeftMenuProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -31,7 +30,6 @@ const LeftMenu = ({ isSidebarOpen, onClose }: LeftMenuProps) => {
   const handleMenuClick = (path: string) => {
     setSelectedPath(path);
     router.push(path);
-    onClose(); // 메뉴를 선택하면 사이드바를 닫음
   };
 
   const toggleSubMenu = (index: number) => {
@@ -40,9 +38,9 @@ const LeftMenu = ({ isSidebarOpen, onClose }: LeftMenuProps) => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-64 h-full mt-14 bg-basic_4 bg-opacity-95 text-gray_4 font-medium p-4 transition-transform duration-300 ease-in-out transform ${
+      className={`w-64 bg-basic_4 text-gray_4 font-medium h-full p-4 transition-transform duration-300 ease-in-out transform ${
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-      } z-20`}
+      } fixed z-10`}
     >
       <ul>
         {MENU_DATA.map((menu, index) => (
@@ -83,7 +81,7 @@ const LeftMenu = ({ isSidebarOpen, onClose }: LeftMenuProps) => {
                         onClick={() => handleMenuClick(subMenu.path)}
                         className={`p-2 block rounded cursor-pointer ${
                           selectedPath === subMenu.path
-                            ? "bg-basic_1 text-black"
+                            ? "bg-basic_6 text-black"
                             : "hover:text-black"
                         }`}
                       >
