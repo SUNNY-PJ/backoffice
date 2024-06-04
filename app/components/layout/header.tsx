@@ -7,10 +7,10 @@ import Sunny from "../../../public/assets/Icon/sunny.svg";
 type HeaderProps = {
   username: string;
   onLogout: () => void;
-  onToggle: () => void;
+  onToggleSidebar: () => void;
 };
 
-const Header = ({ username, onLogout, onToggle }: HeaderProps) => {
+const Header = ({ username, onLogout, onToggleSidebar }: HeaderProps) => {
   const [rotate, setRotate] = useState(false);
 
   const handleClick = () => {
@@ -19,11 +19,11 @@ const Header = ({ username, onLogout, onToggle }: HeaderProps) => {
   };
 
   return (
-    <header className="flex items-center justify-between p-2 text-black bg-orange_3">
+    <header className="fixed top-0 left-0 right-0 z-30 flex items-center justify-between p-2 text-black bg-orange_2">
       <div className="flex items-center space-x-4">
         <button
           onClick={() => {
-            onToggle();
+            onToggleSidebar();
             handleClick();
           }}
         >
@@ -37,22 +37,22 @@ const Header = ({ username, onLogout, onToggle }: HeaderProps) => {
         </button>
         <div className="text-lg font-bold">Welcome, {username}!</div>
       </div>
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-2">
         <button
           onClick={() => alert("프로필 버튼 클릭")}
-          className="px-4 py-2 font-bold text-black rounded border-orange_4 bg-orange_0 hover:border-orange_5 hover:bg-orange_1 hover:text-gray_6"
+          className="px-2 py-1 font-bold text-black border rounded sm:px-4 sm:py-2 border-orange_4 bg-basic_1 hover:border-orange_5 hover:bg-basic_2 hover:text-gray_6"
         >
           프로필
         </button>
         <button
           onClick={() => alert("알림 버튼 클릭")}
-          className="px-4 py-2 font-bold text-black rounded border-orange_4 bg-orange_0 hover:border-orange_5 hover:bg-orange_1 hover:text-gray_6"
+          className="px-2 py-1 font-bold text-black border rounded sm:px-4 sm:py-2 border-orange_4 bg-basic_1 hover:border-orange_5 hover:bg-basic_2 hover:text-gray_6"
         >
           알림
         </button>
         <button
           onClick={onLogout}
-          className="px-4 py-2 font-bold text-black rounded border-orange_4 bg-orange_0 hover:border-orange_5 hover:bg-orange_1 hover:text-gray_6"
+          className="px-2 py-1 font-bold text-black border rounded sm:px-4 sm:py-2 border-orange_4 bg-basic_1 hover:border-orange_5 hover:bg-basic_2 hover:text-gray_6"
         >
           Logout
         </button>
