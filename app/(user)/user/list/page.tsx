@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { faker } from "@faker-js/faker";
 import "tabulator-tables/dist/css/tabulator_simple.min.css";
 import { TabulatorFull as Tabulator } from "tabulator-tables";
-import ProfileModal from "@/app/components/modal/profileModal";
+import ProfileModal from "@/app/components/profileModal";
 
 interface User {
   id: string;
