@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { faker } from "@faker-js/faker";
 import "tabulator-tables/dist/css/tabulator_simple.min.css";
-import { Tabulator } from "tabulator-tables";
+import { TabulatorFull as Tabulator } from "tabulator-tables";
 
 interface User {
   id: string;
@@ -31,8 +31,8 @@ const List = () => {
   const tableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // 임시 사용자 10명 생성
-    const generatedUsers = generateUsers(10);
+    // 임시 사용자 20명 생성
+    const generatedUsers = generateUsers(20);
     setUsers(generatedUsers);
   }, []);
 
@@ -41,6 +41,10 @@ const List = () => {
       new Tabulator(tableRef.current, {
         data: users,
         layout: "fitColumns",
+        pagination: true, // 페이징 활성화
+        paginationMode: "local", // 로컬 페이징
+        paginationSize: 10, // 페이지당 항목 수
+        paginationInitialPage: 1, // 초기 페이지 번호
         columns: [
           { title: "ID", field: "id" },
           { title: "Name", field: "name" },
