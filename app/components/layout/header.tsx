@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Sunny from "../../../public/assets/Icon/sunny.svg";
-import AlertModal from "../Modal/alertModal";
+import AlertModal from "../modal/alertModal";
 
 type HeaderProps = {
   username: string;
