@@ -4,6 +4,19 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Sunny from "../../../public/assets/Icon/sunny.svg";
 import AlertModal from "../modal/alertModal";
+import AdminProfileModal from "../modal/adminProfileModal";
+
+const notifications = [
+  {
+    username: "admin",
+    message: "신고가 접수되었습니다.",
+  },
+  { username: "admin", message: "지난 주 대비 10%의 사용자가 증가했습니다." },
+  {
+    username: "admin",
+    message: "SUNNY에 대한 피드백이 접수 되었습니다.",
+  },
+];
 
 type HeaderProps = {
   username: string;
@@ -14,17 +27,7 @@ type HeaderProps = {
 const Header = ({ username, onLogout, onToggleSidebar }: HeaderProps) => {
   const [rotate, setRotate] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
-  const notifications = [
-    {
-      username: "admin",
-      message: "신고가 접수되었습니다.",
-    },
-    { username: "admin", message: "지난 주 대비 10%의 사용자가 증가했습니다." },
-    {
-      username: "admin",
-      message: "SUNNY에 대한 피드백이 접수 되었습니다.",
-    },
-  ];
+  const [openProfile, setOpenProfile] = useState(false);
 
   const handleClick = () => {
     setRotate(true);
@@ -34,6 +37,9 @@ const Header = ({ username, onLogout, onToggleSidebar }: HeaderProps) => {
   const handleAlertBtnClick = () => {
     setOpenAlert(!openAlert);
     console.log("알림 버튼 누름 ::: ", openAlert);
+  };
+  const handleProfileClick = () => {
+    setOpenProfile(true);
   };
 
   return (
@@ -55,13 +61,25 @@ const Header = ({ username, onLogout, onToggleSidebar }: HeaderProps) => {
         </button>
         <div className="text-lg font-bold">Welcome, {username}!</div>
       </div>
-      <div className="relative flex items-center space-x-2">
+      <div className="relative flex items-center gap-2">
         <button
-          onClick={() => alert("프로필 버튼 클릭")}
+          onClick={handleProfileClick}
           className="px-2 py-1 font-bold text-black border rounded sm:px-4 sm:py-2 border-orange_4 bg-basic_1 hover:border-orange_5 hover:bg-basic_2 hover:text-gray_6"
         >
           프로필
         </button>
+        {openProfile && (
+          <AdminProfileModal
+            show={openProfile}
+            onClose={() => setOpenProfile(false)}
+            user={{
+              id: "user35",
+              name: "옥슈슈깡",
+              email: "6suyeon@naver.com",
+              phone: "010-2320-4131",
+            }}
+          />
+        )}
         <button
           onClick={handleAlertBtnClick}
           className="px-2 py-1 font-bold text-black border rounded sm:px-4 sm:py-2 border-orange_4 bg-basic_1 hover:border-orange_5 hover:bg-basic_2 hover:text-gray_6"
