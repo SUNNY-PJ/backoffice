@@ -3,8 +3,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ColumnDefinition, ReactTabulator } from "react-tabulator";
 import "react-tabulator/css/tabulator.min.css";
-// import "react-tabulator/css/semantic-ui/tabulator_semantic-ui.min.css";
 import "react-tabulator/css/tabulator_simple.min.css";
+import Modal from "react-modal";
+import ReportModal from "@/app/components/modal/reportModal";
 
 interface Report {
   id: number;
@@ -17,7 +18,15 @@ interface Report {
 
 const Report: React.FC = () => {
   const [reports, setReports] = useState<Report[]>([]);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [selectedReport, setSelectedReport] = useState<Report | null>(null);
   const tableRef = useRef<any>(null);
+
+  const rowClick = (e: any, row: any) => {
+    setSelectedReport(row.getData());
+    console.log(row.getData());
+    setShowModal(true);
+  };
 
   useEffect(() => {
     // 신고 데이터 로드 (예: API 호출)
@@ -104,7 +113,6 @@ const Report: React.FC = () => {
           date: "2023-01-10",
           status: "pending",
         },
-        // 추가 데이터...
       ];
       setReports(data);
     };
@@ -143,7 +151,18 @@ const Report: React.FC = () => {
         tooltips={true}
         layout={"fitData"}
         options={options}
+        events={{
+          rowClick: rowClick,
+        }}
       />
+
+      {selectedReport && (
+        <ReportModal
+          show={showModal}
+          onClose={() => setShowModal(false)}
+          report={selectedReport}
+        />
+      )}
     </div>
   );
 };
