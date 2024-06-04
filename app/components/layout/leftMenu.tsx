@@ -38,7 +38,7 @@ const LeftMenu = ({ isSidebarOpen }: LeftMenuProps) => {
 
   return (
     <nav
-      className={`pt-16 w-64 bg-basic_4 text-gray_4 font-medium h-full p-4 transition-transform duration-300 ease-in-out transform ${
+      className={`w-64 bg-basic_4 text-gray_4 font-medium h-full p-4 transition-transform duration-300 ease-in-out transform ${
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       } fixed z-10`}
     >
@@ -81,7 +81,7 @@ const LeftMenu = ({ isSidebarOpen }: LeftMenuProps) => {
                         onClick={() => handleMenuClick(subMenu.path)}
                         className={`p-2 block rounded cursor-pointer ${
                           selectedPath === subMenu.path
-                            ? "bg-basic_6 text-black"
+                            ? "bg-basic_1 text-black"
                             : "hover:text-black"
                         }`}
                       >
