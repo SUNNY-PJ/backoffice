@@ -8,9 +8,10 @@ import Sunny from "../../../public/assets/Icon/yellow_sunny.svg";
 
 type LeftMenuProps = {
   isSidebarOpen: boolean;
+  onClose: () => void;
 };
 
-const LeftMenu = ({ isSidebarOpen }: LeftMenuProps) => {
+const LeftMenu = ({ isSidebarOpen, onClose }: LeftMenuProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -30,6 +31,7 @@ const LeftMenu = ({ isSidebarOpen }: LeftMenuProps) => {
   const handleMenuClick = (path: string) => {
     setSelectedPath(path);
     router.push(path);
+    onClose(); // 메뉴를 선택하면 사이드바를 닫음
   };
 
   const toggleSubMenu = (index: number) => {
@@ -38,9 +40,9 @@ const LeftMenu = ({ isSidebarOpen }: LeftMenuProps) => {
 
   return (
     <nav
-      className={`w-64 bg-basic_4 text-gray_4 font-medium h-full p-4 transition-transform duration-300 ease-in-out transform ${
+      className={`fixed top-0 left-0 w-64 h-full bg-basic_4 bg-opacity-95 text-gray_4 font-medium p-4 transition-transform duration-300 ease-in-out transform ${
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-      } fixed z-10`}
+      } z-20`}
     >
       <ul>
         {MENU_DATA.map((menu, index) => (
