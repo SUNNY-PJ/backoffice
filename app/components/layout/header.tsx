@@ -19,7 +19,7 @@ const Header = ({ username, onLogout, onToggle }: HeaderProps) => {
   };
 
   return (
-    <header className="bg-orange_3 text-black p-2 flex justify-between items-center fixed top-0 left-0 right-0 z-10">
+    <header className="flex items-center justify-between p-2 text-black bg-orange_3">
       <div className="flex items-center space-x-4">
         <button
           onClick={() => {
@@ -40,19 +40,19 @@ const Header = ({ username, onLogout, onToggle }: HeaderProps) => {
       <div className="flex items-center space-x-4">
         <button
           onClick={() => alert("프로필 버튼 클릭")}
-          className="bg-orange_1 hover:bg-orange_0 text-gray_5 font-bold py-2 px-4 rounded"
+          className="px-4 py-2 font-bold text-black rounded border-orange_4 bg-orange_0 hover:border-orange_5 hover:bg-orange_1 hover:text-gray_6"
         >
           프로필
         </button>
         <button
           onClick={() => alert("알림 버튼 클릭")}
-          className="bg-orange_1 hover:bg-orange_0 text-gray_5 font-bold py-2 px-4 rounded"
+          className="px-4 py-2 font-bold text-black rounded border-orange_4 bg-orange_0 hover:border-orange_5 hover:bg-orange_1 hover:text-gray_6"
         >
           알림
         </button>
         <button
           onClick={onLogout}
-          className="bg-orange_1 hover:bg-orange_0 text-gray_5 font-bold py-2 px-4 rounded"
+          className="px-4 py-2 font-bold text-black rounded border-orange_4 bg-orange_0 hover:border-orange_5 hover:bg-orange_1 hover:text-gray_6"
         >
           Logout
         </button>
