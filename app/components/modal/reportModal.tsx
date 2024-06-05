@@ -20,7 +20,7 @@ const ReportModal: React.FC<ReportModalProps> = ({ show, onClose, report }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="w-1/3 p-8 bg-white border-2 rounded-lg shadow-lg border-orange_4">
+      <div className="w-1/3 p-8 bg-white border-2 rounded-lg shadow-lg border-orange_4 text-black">
         <h2 className="mb-4 text-2xl font-bold text-orange_4">
           신고 상세 내용
         </h2>
