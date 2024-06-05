@@ -19,11 +19,17 @@ const ReportModal: React.FC<ReportModalProps> = ({ show, onClose, report }) => {
   if (!show || !report) return null;
 
   const handleConsentClick = () => {
-    alert("신고를 승낙했습니다.");
+    alert(
+      `신고를 승낙했습니다.\n${report.reportedUser}에게 신고 결과를 보냅니다.`
+    );
+    onClose();
   };
 
   const handleRefuseClick = () => {
-    alert("신고를 거절했습니다.");
+    alert(
+      `신고를 거절했습니다.\n${report.reportedUser}에게 신고 결과를 보냅니다.`
+    );
+    onClose();
   };
 
   return (
