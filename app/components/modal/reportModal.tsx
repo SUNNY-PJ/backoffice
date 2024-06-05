@@ -18,6 +18,14 @@ interface ReportModalProps {
 const ReportModal: React.FC<ReportModalProps> = ({ show, onClose, report }) => {
   if (!show || !report) return null;
 
+  const handleConsentClick = () => {
+    alert("신고를 승낙했습니다.");
+  };
+
+  const handleRefuseClick = () => {
+    alert("신고를 거절했습니다.");
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="w-1/3 p-8 bg-white border-2 rounded-lg shadow-lg border-orange_4 text-black">
@@ -42,12 +50,28 @@ const ReportModal: React.FC<ReportModalProps> = ({ show, onClose, report }) => {
         <div className="mb-4">
           <strong>상태:</strong> {report.status}
         </div>
-        <button
-          className="px-4 py-2 mt-4 text-white rounded bg-orange_4 hover:bg-orange_5"
-          onClick={onClose}
-        >
-          닫기
-        </button>
+        <div className="flex justify-between">
+          <div>
+            <button
+              className="px-4 py-2 mt-4 text-white rounded bg-orange_4 hover:bg-orange_5"
+              onClick={handleConsentClick}
+            >
+              승낙
+            </button>
+            <button
+              className="px-4 py-2 mt-4 ml-2 text-white rounded bg-orange_4 hover:bg-orange_5"
+              onClick={handleRefuseClick}
+            >
+              거절
+            </button>
+          </div>
+          <button
+            className="px-4 py-2 mt-4 text-white rounded bg-orange_4 hover:bg-orange_5"
+            onClick={onClose}
+          >
+            닫기
+          </button>
+        </div>
       </div>
     </div>
   );
