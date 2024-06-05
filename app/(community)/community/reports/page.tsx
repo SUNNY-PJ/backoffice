@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { ColumnDefinition, ReactTabulator } from "react-tabulator";
 import "react-tabulator/css/tabulator.min.css";
 import "react-tabulator/css/tabulator_simple.min.css";
-import Modal from "react-modal";
 import ReportModal from "@/app/components/modal/reportModal";
 
 interface Report {
