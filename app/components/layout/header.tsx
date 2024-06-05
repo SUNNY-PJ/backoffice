@@ -5,6 +5,7 @@ import Image from "next/image";
 import Sunny from "../../../public/assets/Icon/sunny.svg";
 import AlertModal from "../modal/alertModal";
 import AdminProfileModal from "../modal/adminProfileModal";
+import { useRouter } from "next/navigation";
 
 const notifications = [
   {
@@ -25,6 +26,7 @@ type HeaderProps = {
 };
 
 const Header = ({ username, onLogout, onToggleSidebar }: HeaderProps) => {
+  const router = useRouter();
   const [rotate, setRotate] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
@@ -59,7 +61,14 @@ const Header = ({ username, onLogout, onToggleSidebar }: HeaderProps) => {
             className={rotate ? "rotate-animation" : ""}
           />
         </button>
-        <div className="text-lg font-bold">Welcome, {username}!</div>
+        <div
+          className="text-lg font-bold cursor-pointer"
+          onClick={() => {
+            router.push("/dashboard/summary");
+          }}
+        >
+          Welcome, {username}!
+        </div>
       </div>
       <div className="relative flex items-center gap-2">
         <button
