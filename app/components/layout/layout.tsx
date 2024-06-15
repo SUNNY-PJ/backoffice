@@ -21,13 +21,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <div className="relative flex h-screen">
+    <div className="relative flex h-screen bg-basic_1">
       <LeftMenu isSidebarOpen={isSidebarOpen} onClose={closeSidebar} />
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 z-10 bg-black bg-opacity-50"
+          className="fixed inset-0 z-10 bg-opacity-50"
           onClick={closeSidebar}
-        ></div>
+        />
       )}
       <div className="flex flex-col flex-1">
         <Header
@@ -35,7 +35,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           onLogout={handleLogout}
           onToggleSidebar={toggleSidebar}
         />
-        <main className="flex-1 p-4 pb-4 mt-14 bg-basic_1">{children}</main>
+        <div className="flex-1 overflow-y-auto bg-basic_1 mt-14">
+          <main>{children}</main>
+        </div>
       </div>
     </div>
   );
