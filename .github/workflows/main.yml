@@ -1,6 +1,5 @@
 name: SUNNY Backoffice
 
-# main 브랜치에 푸시될 때 실행
 on:
   push:
     branches:
@@ -8,24 +7,19 @@ on:
 
 jobs:
   build:
-    # 이 작업은 최신 우분투 환경에서 실행
     runs-on: ubuntu-latest
 
     steps:
-      # 리포지토리를 체크아웃
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Node.js 환경을 설정
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '21.6.2
 
-      # 프로젝트의 의존성을 설치
       - name: Install dependencies
         run: npm install
 
-      # 프로젝트를 빌드
       - name: Build project
         run: npm run build
