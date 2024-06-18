@@ -16,16 +16,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Node.js 환경을 설정합니다. 여기서 16버전을 사용합니다.
+      # Node.js 환경을 설정
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '21.6.2'  # Node.js 버전을 프로젝트에 맞게 설정하세요
+          node-version: '21.6.2
 
-      # 프로젝트의 의존성을 설치합니다.
+      # 프로젝트의 의존성을 설치
       - name: Install dependencies
         run: npm install
 
-      # 프로젝트를 빌드합니다.
+      # 프로젝트를 빌드
       - name: Build project
         run: npm run build
