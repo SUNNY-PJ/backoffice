@@ -6,18 +6,8 @@ import Sunny from "../../../public/assets/Icon/sunny.svg";
 import AlertModal from "../modal/alertModal";
 import AdminProfileModal from "../modal/adminProfileModal";
 import { useRouter } from "next/navigation";
-
-const notifications = [
-  {
-    username: "admin",
-    message: "신고가 접수되었습니다.",
-  },
-  { username: "admin", message: "지난 주 대비 10%의 사용자가 증가했습니다." },
-  {
-    username: "admin",
-    message: "SUNNY에 대한 피드백이 접수 되었습니다.",
-  },
-];
+import { NOTIFICATION } from "@/data/mock";
+import KakaoModal from "../modal/login/kakaoModal";
 
 type HeaderProps = {
   username: string;
@@ -30,6 +20,7 @@ const Header = ({ username, onLogout, onToggleSidebar }: HeaderProps) => {
   const [rotate, setRotate] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
+  const [openKakao, setOpenKakao] = useState(false);
 
   const handleClick = () => {
     setRotate(true);
@@ -42,6 +33,10 @@ const Header = ({ username, onLogout, onToggleSidebar }: HeaderProps) => {
   };
   const handleProfileClick = () => {
     setOpenProfile(true);
+  };
+
+  const handleLoginClick = () => {
+    setOpenKakao(true);
   };
 
   return (
@@ -72,6 +67,15 @@ const Header = ({ username, onLogout, onToggleSidebar }: HeaderProps) => {
       </div>
       <div className="relative flex items-center gap-2">
         <button
+          onClick={handleLoginClick}
+          className="px-2 py-1 font-bold text-black border rounded sm:px-4 sm:py-2 border-orange_4 bg-basic_1 hover:border-orange_5 hover:bg-basic_2 hover:text-gray_6"
+        >
+          로그인
+        </button>
+        {openKakao && (
+          <KakaoModal show={openKakao} onClose={() => setOpenKakao(false)} />
+        )}
+        <button
           onClick={handleProfileClick}
           className="px-2 py-1 font-bold text-black border rounded sm:px-4 sm:py-2 border-orange_4 bg-basic_1 hover:border-orange_5 hover:bg-basic_2 hover:text-gray_6"
         >
@@ -98,7 +102,7 @@ const Header = ({ username, onLogout, onToggleSidebar }: HeaderProps) => {
         {openAlert && (
           <div className="absolute right-0 mt-2 top-full">
             <AlertModal
-              notifications={notifications}
+              notifications={NOTIFICATION}
               onClose={() => setOpenAlert(false)}
             />
           </div>
