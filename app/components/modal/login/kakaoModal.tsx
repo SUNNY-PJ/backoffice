@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Sunny from "../../../../public/assets/Icon/sunny.svg";
-import { REST_API_KEY, REDIRECT_URI } from "../../../../api/common";
+import { REST_API_KEY, REDIRECT_URI } from "@/api/common";
 
 interface KakaoModalProps {
   show: boolean;
