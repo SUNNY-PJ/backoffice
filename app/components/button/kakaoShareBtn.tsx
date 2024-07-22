@@ -1,4 +1,5 @@
-@@ -0,0 +1,52 @@
+"use client";
+
 import React, { useEffect } from "react";
 import Image from "next/image";
 import KakaoImage from "@/public/assets/image/kakao_login_small.png";
