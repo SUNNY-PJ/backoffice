@@ -4,7 +4,18 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 
+// 사용자 정보를 담는 타입 정의
+interface KakaoUserInfo {
+  kakao_account: {
+    profile: {
+      nickname: string;
+    };
+    email: string;
+  };
+}
+
 const KakaoCallback: React.FC = () => {
+  console.log("진입함 ::::");
   const router = useRouter();
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
@@ -15,7 +26,7 @@ const KakaoCallback: React.FC = () => {
   useEffect(() => {
     if (code) {
       const fetchData = async () => {
-        const inputURL = `/auth/kakao/callback`;
+        const inputURL = `/auth/kakao/callback`; // 백엔드 엔드포인트 URL
         try {
           const response = await axios.get(inputURL, {
             params: { code: code },
@@ -25,12 +36,19 @@ const KakaoCallback: React.FC = () => {
           });
           console.log("response.data >>>", response.data);
 
-          // Assuming the response contains the JWT token
           const { accessToken } = response.data;
-          console.log("123123", response);
           if (accessToken) {
             localStorage.setItem("jwt", accessToken);
             console.log("JWT Token:", accessToken);
+
+            // JWT 토큰을 이용해 사용자 정보를 요청
+            const userInfoResponse = await axios.get("/auth/user-info", {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            });
+
+            setUserInfo(userInfoResponse.data);
           } else {
             console.error("JWT token not found in the response");
           }
