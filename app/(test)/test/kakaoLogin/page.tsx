@@ -1,4 +1,4 @@
-import KakaoLogin from "@/app/components/test/kakaoLogin";
+import KakaoLogin from "@/app/components/button/kakaoLogin";
 import React from "react";
 
 const Home = () => {
