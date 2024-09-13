@@ -4,6 +4,7 @@ export const PROXY_URL = "http://3.35.101.15:8080";
 
 // stomp test
 export const stompUrl = "http://localhost:8080/stomp";
+export const STOMP_URL = "http://43.201.176.22:8080/stomp";
 
 // kakao
 export const REST_API_KEY = "7ff971db2010c97a3e191dd319ec45cd";
