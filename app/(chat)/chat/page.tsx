@@ -17,6 +17,10 @@ const ChatPage = () => {
   const [currentMessage, setCurrentMessage] = useState<string>("");
   const [receivedMessages, setReceivedMessages] = useState<Message[]>([]);
   const [roomId, setRoomId] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [token, setToken] = useState<string>(""); // Token stored in state
+  const [inputToken, setInputToken] = useState<string>(""); // Temporary token for input in modal
+
   const scrollViewRef = useRef<HTMLDivElement | null>(null);
 
   // Mock profile, use real data in production
@@ -29,43 +33,43 @@ const ChatPage = () => {
     }
   };
 
+  // WebSocket initialization with the token
+  const initializeWebSocket = async (chatRoomId: string) => {
+    if (!token) {
+      console.error("No access token found. Please enter a token.");
+      return;
+    }
+
+    const newClient = new Client({
+      brokerURL: `ws://${SOCKET_URL}/stomp`,
+      connectHeaders: { Authorization: `Bearer ${token}` },
+      onConnect: () => {
+        console.log("Connected to WebSocket");
+        newClient.subscribe(`/sub/room/${chatRoomId}`, (message) => {
+          const parsedMessage: Message = JSON.parse(message.body);
+          setReceivedMessages((prevMessages) => [
+            ...prevMessages,
+            {
+              ...parsedMessage,
+              isMine: parsedMessage.userId === myId,
+              formattedTime: new Date().toLocaleTimeString(),
+              formattedDate: new Date().toLocaleDateString(),
+            },
+          ]);
+          scrollToEnd();
+        });
+      },
+      onWebSocketError: (error) => {
+        console.error("WebSocket Error: ", error);
+      },
+    });
+
+    newClient.activate();
+    setClient(newClient);
+  };
+
   useEffect(() => {
-    const initializeWebSocket = async (chatRoomId: string) => {
-      const token = localStorage.getItem("access_token");
-      if (!token) {
-        console.error("No access token found");
-        return;
-      }
-
-      const newClient = new Client({
-        brokerURL: `ws://${SOCKET_URL}/stomp`,
-        connectHeaders: { Authorization: `Bearer ${token}` },
-        onConnect: () => {
-          console.log("Connected to WebSocket");
-          newClient.subscribe(`/sub/room/${chatRoomId}`, (message) => {
-            const parsedMessage: Message = JSON.parse(message.body);
-            setReceivedMessages((prevMessages) => [
-              ...prevMessages,
-              {
-                ...parsedMessage,
-                isMine: parsedMessage.userId === myId,
-                formattedTime: new Date().toLocaleTimeString(),
-                formattedDate: new Date().toLocaleDateString(),
-              },
-            ]);
-            scrollToEnd();
-          });
-        },
-        onWebSocketError: (error) => {
-          console.error("WebSocket Error: ", error);
-        },
-      });
-
-      newClient.activate();
-      setClient(newClient);
-    };
-
-    if (roomId) {
+    if (roomId && token) {
       initializeWebSocket(roomId);
     }
 
@@ -74,8 +78,9 @@ const ChatPage = () => {
         client.deactivate();
       }
     };
-  }, [roomId]);
+  }, [roomId, token]);
 
+  // Send message function
   const sendMessage = () => {
     if (client && client.connected && currentMessage) {
       client.publish({
@@ -91,9 +96,32 @@ const ChatPage = () => {
     }
   };
 
+  // Modal open/close handlers
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleTokenSubmit = () => {
+    setToken(inputToken);
+    closeModal();
+  };
+
   return (
     <div className="flex flex-col h-screen">
-      <div ref={scrollViewRef} className="flex-grow overflow-y-auto p-4">
+      {/* Token input button */}
+      <button
+        onClick={openModal}
+        className="absolute top-20 right-4 bg-blue-500 text-white py-2 px-4 rounded"
+      >
+        Enter Token
+      </button>
+
+      {/* Chat container */}
+      <div ref={scrollViewRef} className="flex-grow overflow-y-auto p-4 mb-20">
         {receivedMessages.map((message, index) => (
           <div key={index} className="mb-2">
             {message.isMine ? (
@@ -118,21 +146,55 @@ const ChatPage = () => {
           </div>
         ))}
       </div>
-      <div className="flex p-4 border-t border-gray-300">
-        <input
-          type="text"
-          value={currentMessage}
-          onChange={(e) => setCurrentMessage(e.target.value)}
-          className="flex-grow border border-gray-300 rounded-lg p-2 text-black"
-          placeholder="Enter a message"
-        />
-        <button
-          onClick={sendMessage}
-          className="ml-4 bg-blue-500 text-white rounded-lg p-2"
-        >
-          Send
-        </button>
+
+      {/* Input section */}
+      <div className="fixed bottom-0 left-0 w-full bg-white p-4 border-t border-gray-300">
+        <div className="flex">
+          <input
+            type="text"
+            value={currentMessage}
+            onChange={(e) => setCurrentMessage(e.target.value)}
+            className="flex-grow border border-gray-300 rounded-lg p-2"
+            placeholder="Enter a message"
+          />
+          <button
+            onClick={sendMessage}
+            className="ml-4 bg-blue-500 text-white rounded-lg p-2"
+          >
+            Send
+          </button>
+        </div>
       </div>
+
+      {/* Modal for entering token */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h2 className="text-lg font-bold mb-4">Enter Token</h2>
+            <input
+              type="text"
+              value={inputToken}
+              onChange={(e) => setInputToken(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg p-2 mb-4"
+              placeholder="Enter your API token"
+            />
+            <div className="flex justify-end">
+              <button
+                onClick={closeModal}
+                className="bg-gray-300 text-black py-2 px-4 rounded mr-2"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleTokenSubmit}
+                className="bg-blue-500 text-white py-2 px-4 rounded"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
