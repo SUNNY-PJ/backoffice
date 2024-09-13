@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Client } from "@stomp/stompjs";
 import { SOCKET_URL } from "@/api/common";
+import useStore from "@/store/tokenStore";
 
 interface Message {
   userId: string;
@@ -17,9 +18,7 @@ const ChatPage = () => {
   const [currentMessage, setCurrentMessage] = useState<string>("");
   const [receivedMessages, setReceivedMessages] = useState<Message[]>([]);
   const [roomId, setRoomId] = useState<string>("");
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [token, setToken] = useState<string>(""); // Token stored in state
-  const [inputToken, setInputToken] = useState<string>(""); // Temporary token for input in modal
+  const { token } = useStore();
 
   const scrollViewRef = useRef<HTMLDivElement | null>(null);
 
@@ -96,30 +95,8 @@ const ChatPage = () => {
     }
   };
 
-  // Modal open/close handlers
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleTokenSubmit = () => {
-    setToken(inputToken);
-    closeModal();
-  };
-
   return (
     <div className="flex flex-col h-screen">
-      {/* Token input button */}
-      <button
-        onClick={openModal}
-        className="absolute top-20 right-4 bg-blue-500 text-white py-2 px-4 rounded"
-      >
-        Enter Token
-      </button>
-
       {/* Chat container */}
       <div ref={scrollViewRef} className="flex-grow overflow-y-auto p-4 mb-20">
         {receivedMessages.map((message, index) => (
@@ -165,36 +142,6 @@ const ChatPage = () => {
           </button>
         </div>
       </div>
-
-      {/* Modal for entering token */}
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h2 className="text-lg font-bold mb-4">Enter Token</h2>
-            <input
-              type="text"
-              value={inputToken}
-              onChange={(e) => setInputToken(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg p-2 mb-4"
-              placeholder="Enter your API token"
-            />
-            <div className="flex justify-end">
-              <button
-                onClick={closeModal}
-                className="bg-gray-300 text-black py-2 px-4 rounded mr-2"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleTokenSubmit}
-                className="bg-blue-500 text-white py-2 px-4 rounded"
-              >
-                Confirm
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
