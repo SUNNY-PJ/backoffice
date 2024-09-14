@@ -3,6 +3,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation"; // for navigation
 import useStore from "@/store/tokenStore";
+import axios from "axios";
+import { getChatList } from "@/services/api";
 
 interface ChatRoom {
   chatRoomId: string;
@@ -21,32 +23,20 @@ const ChatList = () => {
 
   console.log("token :::", token);
 
-  const fetchData = useCallback(async () => {
-    if (!token) {
-      alert("Please enter a token.");
-      return;
-    }
-
-    try {
-      const response = await fetch("/api/chat/room", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      setChatListData(data);
-    } catch (error) {
-      console.error("Error fetching chat list:", error);
-    }
-  }, [token]);
-
   useEffect(() => {
-    if (token) {
-      fetchData();
-    }
-  }, [token, fetchData]);
+    const fetchChatList = async () => {
+      if (!token) return;
+
+      try {
+        const results = await getChatList(token);
+        setChatListData(results);
+      } catch (error) {
+        console.error("Failed to fetch chat list:", error);
+      }
+    };
+
+    fetchChatList();
+  }, [token]);
 
   const truncateText = (text: string) => {
     const maxLength = 20;
@@ -62,7 +52,7 @@ const ChatList = () => {
   // Delete a chat room (dummy function for now, but it can be connected to your backend)
   const handleChatRoomDelete = async (chatRoomId: string) => {
     try {
-      const response = await fetch(`/api/chat/room/${chatRoomId}`, {
+      const response = await fetch(`/chat/room/${chatRoomId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -71,7 +61,7 @@ const ChatList = () => {
 
       if (response.ok) {
         alert("Chat room deleted");
-        fetchData(); // Refresh data after deletion
+        // fetchData();
       } else {
         console.error("Failed to delete chat room");
       }
