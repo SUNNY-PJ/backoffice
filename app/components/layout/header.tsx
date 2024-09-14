@@ -26,7 +26,7 @@ const Header = ({ username, onLogout, onToggleSidebar }: HeaderProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // Use Zustand's store
-  const { setToken, token } = useStore();
+  const { setToken } = useStore();
 
   const handleClick = () => {
     setRotate(true);
