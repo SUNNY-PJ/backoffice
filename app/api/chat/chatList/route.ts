@@ -15,7 +15,8 @@ export async function GET(req: NextRequest) {
 
     // 외부 API에 Axios를 사용하여 토큰을 포함한 요청 보내기
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_DEV_BASE_URL}/chat/room`,
+      // `${process.env.NEXT_PUBLIC_DEV_BASE_URL}/chat/room`,
+      "http://3.35.101.15:8080/chat/room",
       {
         headers: {
           Authorization: token, // 토큰을 헤더에 포함시킴
