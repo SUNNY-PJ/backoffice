@@ -1,6 +1,7 @@
 // server
 // export const PROXY_URL = "http://43.201.176.22:8080";
 export const PROXY_URL = "http://3.35.101.15:8080";
+// export const PROXY_URL = "http://52.65.201.239:8080";
 
 // stomp test
 export const stompUrl = "http://localhost:8080/stomp";

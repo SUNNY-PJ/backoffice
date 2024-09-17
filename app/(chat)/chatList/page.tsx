@@ -30,6 +30,8 @@ const ChatList = () => {
       try {
         const results = await getChatList(token);
         setChatListData(results);
+
+        console.log("채팅 리스트 :::", results);
       } catch (error) {
         console.error("Failed to fetch chat list:", error);
       }
@@ -49,7 +51,6 @@ const ChatList = () => {
     router.push(`/chat/${chatRoomId}?messageId=${chatMessageId}`);
   };
 
-  // Delete a chat room (dummy function for now, but it can be connected to your backend)
   const handleChatRoomDelete = async (chatRoomId: string) => {
     try {
       const response = await fetch(`/chat/room/${chatRoomId}`, {
