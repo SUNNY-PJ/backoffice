@@ -131,12 +131,6 @@ const Header = ({ username, onLogout, onToggleSidebar }: HeaderProps) => {
           <AdminProfileModal
             show={openProfile}
             onClose={() => setOpenProfile(false)}
-            user={{
-              id: "user35",
-              name: "옥슈슈깡",
-              email: "6suyeon@naver.com",
-              phone: "010-2320-4131",
-            }}
           />
         )}
         <button
