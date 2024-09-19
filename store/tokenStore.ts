@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface AuthState {
   token: string;
@@ -6,10 +7,18 @@ interface AuthState {
   clearToken: () => void;
 }
 
-const useStore = create<AuthState>((set) => ({
-  token: "",
-  setToken: (token) => set({ token }),
-  clearToken: () => set({ token: "" }),
-}));
+const useStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      token: "",
+      setToken: (token) => set({ token }),
+      clearToken: () => set({ token: "" }),
+    }),
+    {
+      name: "auth-storage",
+      getStorage: () => localStorage,
+    }
+  )
+);
 
 export default useStore;
