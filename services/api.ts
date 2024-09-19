@@ -20,7 +20,7 @@ export const getUserProfile = async (token: string) => {
   try {
     const response = await axios.get("/api/user/profile", {
       headers: {
-        Authorization: `Bearer ${token}`, // 토큰을 Authorization 헤더에 추가
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json; charset=utf-8",
       },
     });
