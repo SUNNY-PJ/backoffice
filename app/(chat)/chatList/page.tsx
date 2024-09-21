@@ -4,7 +4,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation"; // for navigation
 import useStore from "@/store/tokenStore";
 import axios from "axios";
-import { deleteChatRoom, getChatList, getChatRoom } from "@/services/api";
+import { deleteChatRoom, getChatList } from "@/services/api";
 import { FaTrash, FaUserCircle } from "react-icons/fa";
 import { MdPerson } from "react-icons/md";
 import { BiUserCircle } from "react-icons/bi";

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 import { PROXY_URL } from "@/api/common";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
     // 클라이언트로부터 전달받은 Authorization 헤더에서 토큰 추출

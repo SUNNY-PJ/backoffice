@@ -1,15 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
 import { Client } from "@stomp/stompjs";
-import { SOCKET_URL } from "@/api/common";
+import { PROXY_URL, SOCKET_URL } from "@/api/common";
 import useStore from "@/store/tokenStore";
-import { getChatRoom } from "@/services/api";
 import { usePathname, useSearchParams } from "next/navigation";
 import useProfileStore from "@/store/profileStore";
-import { FaPaperPlane } from "react-icons/fa";
-import { IoPaperPlaneOutline } from "react-icons/io5";
-import { MdPerson } from "react-icons/md";
 import { AiOutlineUser } from "react-icons/ai";
 
 interface Message {
@@ -22,7 +18,7 @@ interface Message {
   notReadCnt: number;
 }
 
-const ChatPage = () => {
+const ChatPageContent = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { token } = useStore();
@@ -44,7 +40,6 @@ const ChatPage = () => {
 
   const initializeWebSocket = async (chatRoomId: string) => {
     if (!token || client) {
-      // 이미 연결되어 있거나 토큰이 없으면 실행하지 않음
       return;
     }
 
@@ -84,7 +79,7 @@ const ChatPage = () => {
     if (chatRoomId && token && !client && pathname.startsWith("/chat")) {
       console.log("WebSocket 연결 중...");
       initializeWebSocket(chatRoomId);
-      fetchPreviousMessages(); // 채팅방 진입 시 기존 메시지 불러오기
+      fetchPreviousMessages();
     }
 
     return () => {
@@ -92,22 +87,31 @@ const ChatPage = () => {
       if (client) {
         console.log("WebSocket 연결 해제 중...");
         client.deactivate();
-        setClient(null); // client 상태 정리
+        setClient(null);
       }
     };
   }, [client]);
 
-  // 기존 채팅 기록 불러오기
   const fetchPreviousMessages = async () => {
     try {
       if (token && chatRoomId) {
-        const chatMessages = await getChatRoom(
-          token,
-          chatRoomId,
-          100,
-          chatMessageId
+        const response = await fetch(
+          `${PROXY_URL}/chat/${chatRoomId}?size=100&chatMessageId=${chatMessageId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json; charset=utf-8",
+            },
+            cache: "no-store",
+          }
         );
 
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        const chatMessages = await response.json();
         const formattedMessages = chatMessages.flatMap((item: any) =>
           item.messages.map((msg: any) => ({
             userId: msg.userId,
@@ -220,8 +224,6 @@ const ChatPage = () => {
             onClick={sendMessage}
             className="ml-4 bg-green_3 text-white rounded-lg p-2 flex items-center"
           >
-            {/* <FaPaperPlane className="mr-2" /> */}
-            {/* <IoPaperPlaneOutline className="mr-1" /> */}
             Send
           </button>
         </div>
@@ -229,5 +231,11 @@ const ChatPage = () => {
     </div>
   );
 };
+
+const ChatPage = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <ChatPageContent />
+  </Suspense>
+);
 
 export default ChatPage;

@@ -13,8 +13,8 @@ interface ProfileModalProps {
 }
 
 const AdminProfileModal = ({ show, onClose }: ProfileModalProps) => {
-  if (!show) return null;
   const { profile } = useProfileStore();
+  if (!show) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

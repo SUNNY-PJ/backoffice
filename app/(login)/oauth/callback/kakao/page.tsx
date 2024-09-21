@@ -1,4 +1,5 @@
-import { Props } from "next/script";
+"use client";
+
 import { useEffect } from "react";
 
 const redirectUri = `http://localhost:3000/oauth/callback/kakao`;
@@ -13,7 +14,7 @@ const scope = [
   "openid",
 ].join(",");
 
-export default function Login({}: Props) {
+export default function Login({}: any) {
   useEffect(() => {
     console.log("window.Kakao: ", window.Kakao);
     if (window.Kakao) {

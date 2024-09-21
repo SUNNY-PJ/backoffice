@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 import { PROXY_URL } from "@/api/common";
 
+export const dynamic = "force-dynamic";
+
 export async function DELETE(req: NextRequest) {
   try {
     const token = req.headers.get("Authorization");

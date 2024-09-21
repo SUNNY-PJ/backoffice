@@ -42,9 +42,9 @@ const KakaoModal: React.FC<KakaoModalProps> = ({ show, onClose }) => {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
