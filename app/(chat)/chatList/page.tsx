@@ -4,7 +4,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation"; // for navigation
 import useStore from "@/store/tokenStore";
 import axios from "axios";
-import { getChatList } from "@/services/api";
+import { getChatList, getChatRoom } from "@/services/api";
 
 interface ChatRoom {
   chatRoomId: string;
@@ -48,27 +48,31 @@ const ChatList = () => {
   };
 
   const handleChatRoomClick = (chatRoomId: string, chatMessageId: string) => {
-    router.push(`/chat/${chatRoomId}?messageId=${chatMessageId}`);
+    // 채팅방 페이지로 이동
+    router.push(
+      `/chat?chatRoomId=${chatRoomId}&chatMessageId=${chatMessageId}`
+    );
   };
 
   const handleChatRoomDelete = async (chatRoomId: string) => {
-    try {
-      const response = await fetch(`/chat/room/${chatRoomId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    console.log(chatRoomId);
+    // try {
+    //   const response = await fetch(`/chat/room/${chatRoomId}`, {
+    //     method: "DELETE",
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   });
 
-      if (response.ok) {
-        alert("Chat room deleted");
-        // fetchData();
-      } else {
-        console.error("Failed to delete chat room");
-      }
-    } catch (error) {
-      console.error("Error deleting chat room:", error);
-    }
+    //   if (response.ok) {
+    //     alert("Chat room deleted");
+    //     // fetchData();
+    //   } else {
+    //     console.error("Failed to delete chat room");
+    //   }
+    // } catch (error) {
+    //   console.error("Error deleting chat room:", error);
+    // }
   };
 
   return (
