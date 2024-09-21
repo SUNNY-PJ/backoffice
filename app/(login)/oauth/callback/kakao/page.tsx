@@ -1,3 +1,5 @@
+"use client";
+
 import { Props } from "next/script";
 import { useEffect } from "react";
 
