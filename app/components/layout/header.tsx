@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import { NOTIFICATION } from "@/data/mock";
 import KakaoModal from "../modal/login/kakaoModal";
 import useStore from "@/store/tokenStore";
+import { getUserProfile } from "@/services/api";
+import useProfileStore from "@/store/profileStore";
 
 type HeaderProps = {
   username: string;
@@ -25,8 +27,8 @@ const Header = ({ username, onLogout, onToggleSidebar }: HeaderProps) => {
   const [inputToken, setInputToken] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  // Use Zustand's store
   const { setToken } = useStore();
+  const { setProfile } = useProfileStore();
 
   const handleClick = () => {
     setRotate(true);
@@ -54,9 +56,21 @@ const Header = ({ username, onLogout, onToggleSidebar }: HeaderProps) => {
     setIsModalOpen(false);
   };
 
-  // When user submits the token, store it in Zustand
   const handleTokenSubmit = () => {
-    setToken(inputToken); // Store the token in Zustand
+    setToken(inputToken);
+    const fetchChatList = async () => {
+      if (!inputToken) return;
+
+      try {
+        const results = await getUserProfile(inputToken);
+        setProfile(results);
+
+        console.log("프로필 정보 :::", results);
+      } catch (error) {
+        console.error("Failed to fetch chat list:", error);
+      }
+    };
+    fetchChatList();
     closeModal();
   };
 
@@ -83,7 +97,7 @@ const Header = ({ username, onLogout, onToggleSidebar }: HeaderProps) => {
             router.push("/dashboard/summary");
           }}
         >
-          Welcome, {username}!
+          {username}!
         </div>
       </div>
       <div className="relative flex items-center gap-2">
