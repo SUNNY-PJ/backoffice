@@ -5,7 +5,7 @@ import { Client } from "@stomp/stompjs";
 import { SOCKET_URL } from "@/api/common";
 import useStore from "@/store/tokenStore";
 import { getChatRoom } from "@/services/api";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import useProfileStore from "@/store/profileStore";
 import { FaPaperPlane } from "react-icons/fa";
 import { IoPaperPlaneOutline } from "react-icons/io5";
@@ -24,6 +24,7 @@ interface Message {
 
 const ChatPage = () => {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const { token } = useStore();
   const { profile } = useProfileStore();
 
@@ -34,8 +35,6 @@ const ChatPage = () => {
   const [receivedMessages, setReceivedMessages] = useState<Message[]>([]);
   const chatRoomId = searchParams.get("chatRoomId");
   const chatMessageId = searchParams.get("chatMessageId");
-  console.log("chatRoomId >>>", chatRoomId);
-  console.log("chatMessageId >>>", chatMessageId);
 
   const scrollToEnd = () => {
     if (scrollViewRef.current) {
@@ -79,19 +78,24 @@ const ChatPage = () => {
   };
 
   useEffect(() => {
-    if (chatRoomId && token && !client) {
-      // client가 없을 때만 WebSocket 초기화
+    console.log("현재 pathname:", pathname);
+    console.log("WebSocket 초기화 중, chatRoomId:", chatRoomId);
+
+    if (chatRoomId && token && !client && pathname.startsWith("/chat")) {
+      console.log("WebSocket 연결 중...");
       initializeWebSocket(chatRoomId);
       fetchPreviousMessages(); // 채팅방 진입 시 기존 메시지 불러오기
     }
 
     return () => {
+      console.log("정리 함수 실행됨. 현재 pathname:", pathname);
       if (client) {
+        console.log("WebSocket 연결 해제 중...");
         client.deactivate();
-        setClient(null);
+        setClient(null); // client 상태 정리
       }
     };
-  }, []);
+  }, [client]);
 
   // 기존 채팅 기록 불러오기
   const fetchPreviousMessages = async () => {
@@ -127,20 +131,6 @@ const ChatPage = () => {
   };
 
   const sendMessage = () => {
-    if (client && client.connected && currentMessage) {
-      client.publish({
-        destination: "/pub/chat/message/room",
-        body: JSON.stringify({
-          roomId: chatRoomId,
-          sendUserId: myId,
-          message: currentMessage,
-        }),
-      });
-      scrollToEnd();
-    }
-  };
-
-  const sendMessageClick = () => {
     if (client && client.connected && currentMessage) {
       client.publish({
         destination: "/pub/chat/message/room",
@@ -227,7 +217,7 @@ const ChatPage = () => {
             placeholder="Enter a message"
           />
           <button
-            onClick={sendMessageClick}
+            onClick={sendMessage}
             className="ml-4 bg-green_3 text-white rounded-lg p-2 flex items-center"
           >
             {/* <FaPaperPlane className="mr-2" /> */}
