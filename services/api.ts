@@ -30,3 +30,26 @@ export const getUserProfile = async (token: string) => {
     throw error;
   }
 };
+
+export const getChatRoom = async (
+  token: string,
+  chatRoomId: string,
+  size: number,
+  chatMessageId: any
+) => {
+  try {
+    const response = await axios.get(
+      `/api/chat/chatRoom?chatRoomId=${chatRoomId}&size=${size}&chatMessageId=${chatMessageId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json; charset=utf-8",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching chat list:", error);
+    throw error;
+  }
+};
