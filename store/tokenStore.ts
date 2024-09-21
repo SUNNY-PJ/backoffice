@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware";
 interface AuthState {
   token: string;
   setToken: (token: string) => void;
-  clearToken: () => void;
+  // clearToken: () => void;
 }
 
 const useStore = create<AuthState>()(
@@ -12,11 +12,11 @@ const useStore = create<AuthState>()(
     (set) => ({
       token: "",
       setToken: (token) => set({ token }),
-      clearToken: () => set({ token: "" }),
+      // clearToken: () => set({ token: "" }),
     }),
     {
       name: "auth-storage",
-      getStorage: () => localStorage,
+      // getStorage: () => localStorage,
     }
   )
 );
