@@ -53,3 +53,21 @@ export const getChatRoom = async (
     throw error;
   }
 };
+
+export const deleteChatRoom = async (token: string, chatRoomId: string) => {
+  try {
+    const response = await axios.delete(
+      `/api/chat/delete?chatRoomId=${chatRoomId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json; charset=utf-8",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting chat room:", error);
+    throw error;
+  }
+};
