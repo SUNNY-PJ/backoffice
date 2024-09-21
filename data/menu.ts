@@ -17,9 +17,7 @@ export const MENU_DATA = [
   },
   {
     title: "대화",
-    subMenu: [
-      { title: "대화 목록 보기", path: "/chat/chatList" },
-    ],
+    subMenu: [{ title: "대화 목록 보기", path: "/chatList" }],
   },
   // {
   //   title: "프로모션 관리",
