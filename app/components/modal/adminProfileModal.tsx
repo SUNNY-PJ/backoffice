@@ -5,6 +5,7 @@ import Image from "next/image";
 import Sunny from "../../../public/assets/Icon/sunny.svg";
 import useStore from "@/store/tokenStore";
 import { getUserProfile } from "@/services/api";
+import useProfileStore from "@/store/profileStore";
 
 interface ProfileModalProps {
   show: boolean;
@@ -13,28 +14,7 @@ interface ProfileModalProps {
 
 const AdminProfileModal = ({ show, onClose }: ProfileModalProps) => {
   if (!show) return null;
-  const [profile, setProfile] = useState<any>({});
-
-  const { token } = useStore();
-
-  console.log("token :::", token);
-
-  useEffect(() => {
-    const fetchChatList = async () => {
-      if (!token) return;
-
-      try {
-        const results = await getUserProfile(token);
-        setProfile(results);
-
-        console.log("프로필 정보 :::", results);
-      } catch (error) {
-        console.error("Failed to fetch chat list:", error);
-      }
-    };
-
-    fetchChatList();
-  }, [token]);
+  const { profile } = useProfileStore();
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

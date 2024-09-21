@@ -3,10 +3,11 @@
 import React, { useState } from "react";
 import LeftMenu from "./leftMenu";
 import Header from "./header";
+import useProfileStore from "@/store/profileStore";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [username, setUsername] = useState("권수연");
+  const { profile } = useProfileStore();
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -31,7 +32,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       )}
       <div className="flex flex-col flex-1">
         <Header
-          username={username}
+          username={
+            `Welcome, ${profile.name}` || "로그인이 필요한 서비스입니다."
+          }
           onLogout={handleLogout}
           onToggleSidebar={toggleSidebar}
         />
