@@ -62,3 +62,7 @@ body {
     }
   }
 }
+
+.text-webkit-center {
+  text-align: -webkit-center;
+}
